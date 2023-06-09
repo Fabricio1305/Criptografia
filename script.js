@@ -139,14 +139,17 @@ document.getElementById('login-form').addEventListener('submit', function(event)
   if (isPasswordValid(password)) {
     score = calculatePasswordStrength(password);
 
-    if (score >= 20) {
+    if (score >= 10) {
       strengthMessage = 'Senha Forte';
       document.getElementById('password-strength').className = 'strong';
-    } else if (score >= 11) {
+    } else if (score >= 5) {
       strengthMessage = 'Senha Moderada';
       document.getElementById('password-strength').className = 'weak';
-    } 
-   else {
+    } else {
+      strengthMessage = 'Senha Fraca';
+      document.getElementById('password-strength').className = 'weak';
+    }
+  } else {
     strengthMessage = 'Senha não atende aos critérios necessários';
     document.getElementById('password-strength').className = 'weak';
   }
@@ -157,7 +160,6 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     addScoreToLeaderboard(username, score);
     updateLeaderboard();
   }
-}
 });
 
 // Event listener para o botão de reset do placar de líderes
@@ -167,4 +169,3 @@ document.getElementById('reset-button').addEventListener('click', function() {
 
 // Atualizar o placar de líderes ao carregar a página
 updateLeaderboard();
-
