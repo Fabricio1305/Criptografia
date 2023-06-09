@@ -23,12 +23,12 @@ function isPasswordValid(password) {
   return true;
 }
 
-// Função para calcular a pontuação da senha
+// Função para calcular a pontuação da senha com base no tamanho
 function calculatePasswordStrength(password) {
   var strength = 0;
 
-  if (password.length >= 10 && password.length <= 24) {
-    strength += 1;
+  if (password.length >= 15 && password.length <= 24) {
+    strength += 8;
   }
 
   if (/[a-z]/.test(password)) {
@@ -46,6 +46,10 @@ function calculatePasswordStrength(password) {
   if (/[!@#$%^&*()\-_=+[{\]}\\|;:'",<.>/?`~]/.test(password)) {
     strength += 2;
   }
+
+  // Adicionar pontuação com base no tamanho da senha
+  var lengthBonus = password.length * 0.5; // Aumento de 0.5 na pontuação para cada caractere da senha
+  strength += lengthBonus;
 
   return strength;
 }
@@ -135,17 +139,14 @@ document.getElementById('login-form').addEventListener('submit', function(event)
   if (isPasswordValid(password)) {
     score = calculatePasswordStrength(password);
 
-    if (score >= 10) {
+    if (score >= 20) {
       strengthMessage = 'Senha Forte';
       document.getElementById('password-strength').className = 'strong';
-    } else if (score >= 5) {
+    } else if (score >= 11) {
       strengthMessage = 'Senha Moderada';
       document.getElementById('password-strength').className = 'weak';
-    } else {
-      strengthMessage = 'Senha Fraca';
-      document.getElementById('password-strength').className = 'weak';
-    }
-  } else {
+    } 
+   else {
     strengthMessage = 'Senha não atende aos critérios necessários';
     document.getElementById('password-strength').className = 'weak';
   }
@@ -156,6 +157,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     addScoreToLeaderboard(username, score);
     updateLeaderboard();
   }
+}
 });
 
 // Event listener para o botão de reset do placar de líderes
@@ -165,3 +167,4 @@ document.getElementById('reset-button').addEventListener('click', function() {
 
 // Atualizar o placar de líderes ao carregar a página
 updateLeaderboard();
+
